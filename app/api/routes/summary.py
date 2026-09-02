@@ -9,10 +9,18 @@ from app.crud.summary import get_summary
 from app.models.user import User
 from app.schemas.summary import SummaryRead
 
-router = APIRouter(prefix="/api/v1/summary", tags=["summary"])
+router = APIRouter(prefix="/api/v1/summary", tags=["Summary"])
 
 
-@router.get("", response_model=SummaryRead)
+@router.get(
+    "",
+    response_model=SummaryRead,
+    summary="Get a financial summary",
+    description=(
+        "Aggregate the authenticated user's income, expenses, balance, and category totals, "
+        "optionally within an inclusive date range."
+    ),
+)
 def read_summary(
     start_date: date | None = Query(default=None),
     end_date: date | None = Query(default=None),

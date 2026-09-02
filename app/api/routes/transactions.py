@@ -16,7 +16,7 @@ from app.schemas.transaction import (
     TransactionUpdate,
 )
 
-router = APIRouter(prefix="/api/v1/transactions")
+router = APIRouter(prefix="/api/v1/transactions", tags=["Transactions"])
 
 
 def transaction_not_found() -> HTTPException:
@@ -38,7 +38,13 @@ def ensure_category_belongs_to_user(
         )
 
 
-@router.post("", response_model=TransactionRead, status_code=status.HTTP_201_CREATED)
+@router.post(
+    "",
+    response_model=TransactionRead,
+    status_code=status.HTTP_201_CREATED,
+    summary="Create a transaction",
+    description="Create a transaction in a category owned by the authenticated user.",
+)
 def create_transaction(
     transaction_data: TransactionCreate,
     db: Annotated[Session, Depends(get_db)],
@@ -48,7 +54,15 @@ def create_transaction(
     return transaction_crud.create(db, current_user.id, transaction_data)
 
 
-@router.get("", response_model=list[TransactionRead])
+@router.get(
+    "",
+    response_model=list[TransactionRead],
+    summary="List transactions",
+    description=(
+        "List the authenticated user's transactions with optional date, category, and type "
+        "filters plus limit/offset pagination."
+    ),
+)
 def list_transactions(
     db: Annotated[Session, Depends(get_db)],
     current_user: Annotated[User, Depends(get_current_user)],
@@ -74,7 +88,12 @@ def list_transactions(
     )
 
 
-@router.get("/{transaction_id}", response_model=TransactionRead)
+@router.get(
+    "/{transaction_id}",
+    response_model=TransactionRead,
+    summary="Get a transaction",
+    description="Return a transaction owned by the authenticated user.",
+)
 def read_transaction(
     transaction_id: int,
     db: Annotated[Session, Depends(get_db)],
@@ -86,7 +105,12 @@ def read_transaction(
     return transaction
 
 
-@router.patch("/{transaction_id}", response_model=TransactionRead)
+@router.patch(
+    "/{transaction_id}",
+    response_model=TransactionRead,
+    summary="Update a transaction",
+    description="Update fields on a transaction owned by the authenticated user.",
+)
 def update_transaction(
     transaction_id: int,
     transaction_data: TransactionUpdate,
@@ -106,7 +130,12 @@ def update_transaction(
     return transaction_crud.update(db, transaction, transaction_data)
 
 
-@router.delete("/{transaction_id}", status_code=status.HTTP_204_NO_CONTENT)
+@router.delete(
+    "/{transaction_id}",
+    status_code=status.HTTP_204_NO_CONTENT,
+    summary="Delete a transaction",
+    description="Delete a transaction owned by the authenticated user.",
+)
 def delete_transaction(
     transaction_id: int,
     db: Annotated[Session, Depends(get_db)],

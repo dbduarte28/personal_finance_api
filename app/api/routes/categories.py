@@ -10,7 +10,7 @@ from app.crud import category as category_crud
 from app.models.user import User
 from app.schemas.category import CategoryCreate, CategoryRead, CategoryUpdate
 
-router = APIRouter(prefix="/api/v1/categories")
+router = APIRouter(prefix="/api/v1/categories", tags=["Categories"])
 
 
 def category_not_found() -> HTTPException:
@@ -27,7 +27,13 @@ def category_conflict() -> HTTPException:
     )
 
 
-@router.post("", response_model=CategoryRead, status_code=status.HTTP_201_CREATED)
+@router.post(
+    "",
+    response_model=CategoryRead,
+    status_code=status.HTTP_201_CREATED,
+    summary="Create a category",
+    description="Create an income or expense category owned by the authenticated user.",
+)
 def create_category(
     category_data: CategoryCreate,
     db: Annotated[Session, Depends(get_db)],
@@ -40,7 +46,12 @@ def create_category(
         raise category_conflict() from error
 
 
-@router.get("", response_model=list[CategoryRead])
+@router.get(
+    "",
+    response_model=list[CategoryRead],
+    summary="List categories",
+    description="List the authenticated user's categories with limit/offset pagination.",
+)
 def list_categories(
     db: Annotated[Session, Depends(get_db)],
     current_user: Annotated[User, Depends(get_current_user)],
@@ -50,7 +61,12 @@ def list_categories(
     return category_crud.list_by_user(db, current_user.id, limit, offset)
 
 
-@router.get("/{category_id}", response_model=CategoryRead)
+@router.get(
+    "/{category_id}",
+    response_model=CategoryRead,
+    summary="Get a category",
+    description="Return a category owned by the authenticated user.",
+)
 def read_category(
     category_id: int,
     db: Annotated[Session, Depends(get_db)],
@@ -62,7 +78,12 @@ def read_category(
     return category
 
 
-@router.patch("/{category_id}", response_model=CategoryRead)
+@router.patch(
+    "/{category_id}",
+    response_model=CategoryRead,
+    summary="Update a category",
+    description="Update the name or type of a category owned by the authenticated user.",
+)
 def update_category(
     category_id: int,
     category_data: CategoryUpdate,
@@ -80,7 +101,12 @@ def update_category(
         raise category_conflict() from error
 
 
-@router.delete("/{category_id}", status_code=status.HTTP_204_NO_CONTENT)
+@router.delete(
+    "/{category_id}",
+    status_code=status.HTTP_204_NO_CONTENT,
+    summary="Delete a category",
+    description="Delete an owned category when it is not referenced by a transaction.",
+)
 def delete_category(
     category_id: int,
     db: Annotated[Session, Depends(get_db)],

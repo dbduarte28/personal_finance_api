@@ -10,10 +10,41 @@ from app.api.routes.summary import router as summary_router
 from app.api.routes.transactions import router as transactions_router
 from app.api.routes.users import router as users_router
 
+tags_metadata = [
+    {
+        "name": "Health",
+        "description": "Service availability checks.",
+    },
+    {
+        "name": "Authentication",
+        "description": "User registration and JWT access token issuance.",
+    },
+    {
+        "name": "Users",
+        "description": "Operations for the authenticated user.",
+    },
+    {
+        "name": "Categories",
+        "description": "User-owned income and expense category management.",
+    },
+    {
+        "name": "Transactions",
+        "description": "User-owned financial transaction management and filtering.",
+    },
+    {
+        "name": "Summary",
+        "description": "Aggregated income, expense, balance, and category totals.",
+    },
+]
+
 app = FastAPI(
     title="Personal Finance API",
-    version="0.1.0",
-    description="API for managing personal finances.",
+    version="1.0.0",
+    description=(
+        "A REST API for managing user-owned financial categories and transactions, "
+        "with JWT authentication and PostgreSQL-powered financial summaries."
+    ),
+    openapi_tags=tags_metadata,
 )
 app.include_router(health_router)
 app.include_router(auth_router)

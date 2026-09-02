@@ -11,10 +11,16 @@ from app.crud import user as user_crud
 from app.schemas.token import Token
 from app.schemas.user import UserCreate, UserRead
 
-router = APIRouter(prefix="/api/v1/auth")
+router = APIRouter(prefix="/api/v1/auth", tags=["Authentication"])
 
 
-@router.post("/register", response_model=UserRead, status_code=status.HTTP_201_CREATED)
+@router.post(
+    "/register",
+    response_model=UserRead,
+    status_code=status.HTTP_201_CREATED,
+    summary="Register a user",
+    description="Create an account from an email and password. The password is stored as a hash.",
+)
 def register(
     user_data: UserCreate,
     db: Annotated[Session, Depends(get_db)],
@@ -35,7 +41,12 @@ def register(
         ) from error
 
 
-@router.post("/login", response_model=Token)
+@router.post(
+    "/login",
+    response_model=Token,
+    summary="Log in",
+    description="Authenticate with an email in the username field and return a JWT bearer token.",
+)
 def login(
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
     db: Annotated[Session, Depends(get_db)],
