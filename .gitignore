@@ -1,0 +1,90 @@
+# ---------- Python ----------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# ---------- Ambientes virtuais ----------
+.venv/
+venv/
+ENV/
+env/
+env.bak/
+venv.bak/
+
+# ---------- Variáveis de ambiente / segredos ----------
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# ---------- Testes e cobertura ----------
+.pytest_cache/
+.tox/
+.nox/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+nosetests.xml
+*.cover
+.hypothesis/
+
+# ---------- Caches de ferramentas ----------
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+.pytype/
+.ruff_cache/
+cython_debug/
+.cache/
+
+# ---------- Bancos de dados locais ----------
+*.db
+*.sqlite
+*.sqlite3
+
+# ---------- Logs ----------
+*.log
+logs/
+
+# ---------- IDEs / editores ----------
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+*.sublime-project
+*.sublime-workspace
+
+# ---------- Sistema operacional ----------
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ---------- Jupyter ----------
+.ipynb_checkpoints/
+
+# ---------- Documentação gerada ----------
+docs/_build/
+site/
