@@ -14,7 +14,7 @@ TEST_ENVIRONMENT = {
     "TEST_DATABASE_URL": (
         "postgresql+psycopg://postgres:postgres@localhost:5432/personal_finance_test"
     ),
-    "SECRET_KEY": "test-only-secret-key",
+    "SECRET_KEY": "test-only-secret-key-with-32-bytes",
     "ALGORITHM": "HS256",
     "ACCESS_TOKEN_EXPIRE_MINUTES": "60",
 }
@@ -24,7 +24,7 @@ for key, value in TEST_ENVIRONMENT.items():
 from app.core.config import get_settings  # noqa: E402
 from app.core.database import Base, get_db  # noqa: E402
 from app.main import app  # noqa: E402
-import app.models  # noqa: E402, F401
+from app import models as app_models  # noqa: E402, F401
 
 
 test_engine = create_engine(get_settings().TEST_DATABASE_URL)
@@ -61,3 +61,21 @@ def client(db_session: Session) -> Generator[TestClient, None, None]:
     with TestClient(app) as test_client:
         yield test_client
     app.dependency_overrides.clear()
+
+
+@pytest.fixture
+def auth_headers(client: TestClient) -> dict[str, str]:
+    credentials = {
+        "email": "authenticated@example.com",
+        "password": "secure-password",
+    }
+    register_response = client.post("/api/v1/auth/register", json=credentials)
+    assert register_response.status_code == 201
+
+    login_response = client.post(
+        "/api/v1/auth/login",
+        data={"username": credentials["email"], "password": credentials["password"]},
+    )
+    assert login_response.status_code == 200
+    token = login_response.json()["access_token"]
+    return {"Authorization": f"Bearer {token}"}

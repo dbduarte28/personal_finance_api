@@ -1,8 +1,10 @@
 alembic
 bcrypt
+email-validator
 fastapi
 psycopg[binary]
 pydantic-settings
 pyjwt
+python-multipart
 sqlalchemy
 uvicorn[standard]
