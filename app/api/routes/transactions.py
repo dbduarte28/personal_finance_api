@@ -16,7 +16,6 @@ from app.schemas.transaction import (
     TransactionUpdate,
 )
 
-
 router = APIRouter(prefix="/api/v1/transactions")
 
 

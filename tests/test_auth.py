@@ -9,7 +9,6 @@ from app.core.config import get_settings
 from app.core.security import create_access_token, decode_access_token, verify_password
 from app.crud.user import get_by_email
 
-
 USER_DATA = {
     "email": "user@example.com",
     "password": "secure-password",

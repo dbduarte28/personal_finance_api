@@ -5,11 +5,12 @@ Revises: 03ba305211ea
 Create Date: 2026-09-02 13:56:16.528516
 
 """
+
 from collections.abc import Sequence
 
-from alembic import op
 import sqlalchemy as sa
 
+from alembic import op
 
 revision: str = "309934a6d01e"
 down_revision: str | None = "03ba305211ea"

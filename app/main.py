@@ -10,7 +10,6 @@ from app.api.routes.summary import router as summary_router
 from app.api.routes.transactions import router as transactions_router
 from app.api.routes.users import router as users_router
 
-
 app = FastAPI(
     title="Personal Finance API",
     version="0.1.0",

@@ -10,7 +10,6 @@ from app.crud import category as category_crud
 from app.models.user import User
 from app.schemas.category import CategoryCreate, CategoryRead, CategoryUpdate
 
-
 router = APIRouter(prefix="/api/v1/categories")
 
 

@@ -9,7 +9,6 @@ from app.core.security import decode_access_token
 from app.crud import user as user_crud
 from app.models.user import User
 
-
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/login")
 
 

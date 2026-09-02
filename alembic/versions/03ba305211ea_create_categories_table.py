@@ -5,11 +5,12 @@ Revises: 81f74338ffac
 Create Date: 2026-09-02 12:57:36.438246
 
 """
+
 from collections.abc import Sequence
 
-from alembic import op
 import sqlalchemy as sa
 
+from alembic import op
 
 revision: str = "03ba305211ea"
 down_revision: str | None = "81f74338ffac"

@@ -236,18 +236,10 @@ def test_filter_by_date_range_includes_boundaries(
     auth_headers: dict[str, str],
 ) -> None:
     category_id = create_category(client, auth_headers, "Salary", "income")
-    before = create_transaction(
-        client, auth_headers, category_id, transaction_date="2026-01-01"
-    )
-    start = create_transaction(
-        client, auth_headers, category_id, transaction_date="2026-01-10"
-    )
-    end = create_transaction(
-        client, auth_headers, category_id, transaction_date="2026-01-20"
-    )
-    after = create_transaction(
-        client, auth_headers, category_id, transaction_date="2026-01-21"
-    )
+    before = create_transaction(client, auth_headers, category_id, transaction_date="2026-01-01")
+    start = create_transaction(client, auth_headers, category_id, transaction_date="2026-01-10")
+    end = create_transaction(client, auth_headers, category_id, transaction_date="2026-01-20")
+    after = create_transaction(client, auth_headers, category_id, transaction_date="2026-01-21")
 
     response = client.get(
         "/api/v1/transactions?start_date=2026-01-10&end_date=2026-01-20",
@@ -277,9 +269,7 @@ def test_filter_by_category(
         headers=auth_headers,
     )
 
-    assert [item["id"] for item in response.json()] == [
-        salary_transaction.json()["id"]
-    ]
+    assert [item["id"] for item in response.json()] == [salary_transaction.json()["id"]]
 
 
 @pytest.mark.parametrize(
@@ -373,9 +363,7 @@ def test_category_with_transactions_cannot_be_deleted(
     )
 
     assert response.status_code == 409
-    assert response.json() == {
-        "detail": "Category cannot be deleted because it has transactions"
-    }
+    assert response.json() == {"detail": "Category cannot be deleted because it has transactions"}
 
 
 @pytest.mark.parametrize(

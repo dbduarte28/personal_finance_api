@@ -6,7 +6,6 @@ from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 
-
 TEST_ENVIRONMENT = {
     "APP_NAME": "Personal Finance API",
     "ENVIRONMENT": "test",
@@ -21,11 +20,10 @@ TEST_ENVIRONMENT = {
 for key, value in TEST_ENVIRONMENT.items():
     os.environ.setdefault(key, value)
 
+from app import models as app_models  # noqa: E402, F401
 from app.core.config import get_settings  # noqa: E402
 from app.core.database import Base, get_db  # noqa: E402
 from app.main import app  # noqa: E402
-from app import models as app_models  # noqa: E402, F401
-
 
 test_engine = create_engine(get_settings().TEST_DATABASE_URL)
 

@@ -120,31 +120,23 @@ def test_summary_without_transactions_returns_zeros_and_empty_list(
     }
 
 
-def test_summary_filters_by_start_date(
-    client: TestClient, auth_headers: dict[str, str]
-) -> None:
+def test_summary_filters_by_start_date(client: TestClient, auth_headers: dict[str, str]) -> None:
     category_id = _create_category(client, auth_headers, "Start filter", "income")
     _create_transaction(client, auth_headers, category_id, "10.00", "2026-03-01")
     _create_transaction(client, auth_headers, category_id, "20.00", "2026-03-15")
 
-    response = client.get(
-        "/api/v1/summary?start_date=2026-03-10", headers=auth_headers
-    )
+    response = client.get("/api/v1/summary?start_date=2026-03-10", headers=auth_headers)
 
     assert response.status_code == 200
     assert response.json()["total_income"] == "20.00"
 
 
-def test_summary_filters_by_end_date(
-    client: TestClient, auth_headers: dict[str, str]
-) -> None:
+def test_summary_filters_by_end_date(client: TestClient, auth_headers: dict[str, str]) -> None:
     category_id = _create_category(client, auth_headers, "End filter", "expense")
     _create_transaction(client, auth_headers, category_id, "12.25", "2026-04-05")
     _create_transaction(client, auth_headers, category_id, "30.00", "2026-04-20")
 
-    response = client.get(
-        "/api/v1/summary?end_date=2026-04-10", headers=auth_headers
-    )
+    response = client.get("/api/v1/summary?end_date=2026-04-10", headers=auth_headers)
 
     assert response.status_code == 200
     assert response.json()["total_expense"] == "12.25"
@@ -178,18 +170,14 @@ def test_summary_only_includes_authenticated_user_transactions(
 
     other_headers = _register_and_login(client, "summary-other@example.com")
     other_category_id = _create_category(client, other_headers, "Other salary", "income")
-    _create_transaction(
-        client, other_headers, other_category_id, "9000.00", "2026-06-01"
-    )
+    _create_transaction(client, other_headers, other_category_id, "9000.00", "2026-06-01")
 
     response = client.get("/api/v1/summary", headers=auth_headers)
 
     assert response.status_code == 200
     data = response.json()
     assert data["total_income"] == "100.00"
-    assert data["by_category"] == [
-        {"name": "Own salary", "type": "income", "total": "100.00"}
-    ]
+    assert data["by_category"] == [{"name": "Own salary", "type": "income", "total": "100.00"}]
 
 
 def test_summary_requires_authentication(client: TestClient) -> None:

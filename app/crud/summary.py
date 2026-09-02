@@ -1,5 +1,6 @@
 from datetime import date
 from decimal import Decimal
+
 from sqlalchemy import Numeric, case, func, literal, select
 from sqlalchemy.orm import Session
 

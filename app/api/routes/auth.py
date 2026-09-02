@@ -11,7 +11,6 @@ from app.crud import user as user_crud
 from app.schemas.token import Token
 from app.schemas.user import UserCreate, UserRead
 
-
 router = APIRouter(prefix="/api/v1/auth")
 
 
